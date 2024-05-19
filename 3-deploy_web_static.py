@@ -5,25 +5,25 @@ archive to the web servers
 """
 
 from fabric.api import put, run, env
-from os.path import exists
+from os.path import exists, isdir
 from fabric.api import local
 from datetime import datetime
+env.hosts = ['100.25.151.99', '52.3.247.32']
 
 
 def do_pack():
     """
     Generates a .tgz archive from the contents of the web_static folder
     """
-    local("mkdir -p versions")
-    versions = local("tar -cvzf versions/web_static_{}.tgz web_static"
-                     .format(datetime.strftime(datetime.now(),
-                             "%Y%m%d%H%M%S")))
-    if versions.failed:
+    try:
+        date = datetime.now().strftime("%Y%m%d%H%M%S")
+        if isdir("versions") is False:
+            local("mkdir versions")
+        file_name = "versions/web_static_{}.tgz".format(date)
+        local("tar -cvzf {} web_static".format(file_name))
+        return file_name
+    except:
         return None
-    return versions
-
-
-env.hosts = ['100.25.151.99', '52.3.247.32']
 
 
 def do_deploy(archive_path):
