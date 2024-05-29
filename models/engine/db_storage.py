@@ -34,22 +34,14 @@ class DBStorage:
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         if cls:
-            if isinstance(cls, str):
-                try:
-                    cls = globals()[cls]
-                except KeyError:
-                    pass
-            if issubclass(cls, Base):
-                objs_list = []
-                objs_list = self.__session.query(cls).all()
+            query = self.__session.query(cls).all()
         else:
-            for subclass in Base.__subclasses__():
-                objs_list.extend(self.__session.query(subclass).all())
-        obj_dict = {}
-        for obj in objs_list:
-            key = "{}.{}".format(obj.__class__.__name__, obj.id)
-            obj_dict[key] = obj
-        return obj_dict
+            query = self.__session.query(State).all() + \
+                self.__session.query(City).all() + \
+                self.__session.query(User).all() + \
+                self.__session.query(Place).all()
+        return {f"{obj.__class__.__name__}.{obj.id}": obj
+                for obj in query}
 
     def new(self, obj):
         """Add the object to the current database session"""
