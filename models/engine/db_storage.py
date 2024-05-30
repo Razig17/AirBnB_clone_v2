@@ -12,6 +12,8 @@ from models.state import State
 from models.user import User
 from os import getenv
 
+classes = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
 
 class DBStorage:
     """This class manages storage of hbnb models in JSON format"""
@@ -33,15 +35,14 @@ class DBStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        if cls:
-            query = self.__session.query(cls).all()
-        else:
-            query = self.__session.query(State).all() + \
-                self.__session.query(City).all() + \
-                self.__session.query(User).all() + \
-                self.__session.query(Place).all()
-        return {f"{obj.__class__.__name__}.{obj.id}": obj
-                for obj in query}
+        new_dict = {}
+        for clss in classes:
+            if cls is None or cls is classes[clss]:
+                objs = self.__session.query(classes[clss]).all()
+                for obj in objs:
+                    key = obj.__class__.__name__ + '.' + obj.id
+                    new_dict[key] = obj
+        return (new_dict)
 
     def new(self, obj):
         """Add the object to the current database session"""
