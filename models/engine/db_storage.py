@@ -15,6 +15,7 @@ from os import getenv
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
+
 class DBStorage:
     """This class manages storage of hbnb models in JSON format"""
     __engine = None
