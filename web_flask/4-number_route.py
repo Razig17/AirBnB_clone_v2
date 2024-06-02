@@ -41,7 +41,7 @@ def python(text):
 
 
 @app.route('/number/<int:n>')
-def number(n):
+def is_number(n):
     """display n is a number only if n is an integer"""
     return f"{escape(n)} is a number"
 
