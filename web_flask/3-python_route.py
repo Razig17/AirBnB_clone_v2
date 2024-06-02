@@ -30,7 +30,7 @@ def python(text):
     """Python ”, followed by the value of the text variable"""
     if text:
         return "Python " + text.replace("_", " ")
-    return "Python cool"
+    return "Python is cool"
 
 
 if __name__ == "__main__":
