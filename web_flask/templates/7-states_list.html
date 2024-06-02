@@ -7,7 +7,7 @@
         <H1>States</H1>
         <UL>
             {% for state in states|dictsort(by='value.name') %}
-	    <LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
+	    <li>{{ state.value.id }}: <b>{{ state.value.name }}</b></li>
 	    {% endfor %}
         </UL>
     </BODY>
