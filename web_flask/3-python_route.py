@@ -28,11 +28,16 @@ def c_is_fun(text):
 
 @app.route('/python/<text>')
 def python(text):
-    """Python ”, followed by the value of the text variable"""
+    """Display Python followed by the value of the text variable"""
     if text:
         return "Python " + text.replace("_", " ")
     return "Python is cool"
 
+
+app.route('/python')
+def just_python(text):
+    """Display Python is cool"""
+    return "Python is cool"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
